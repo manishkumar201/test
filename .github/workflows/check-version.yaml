@@ -15,7 +15,7 @@ jobs:
       - name: Check if version file is updated
         id: check-updated
         run: |
-          VERSION_FILE=path/to/version/file.txt
+          VERSION_FILE=version.txt
           CHANGES=$(git diff --name-only HEAD~1 $VERSION_FILE)
           if [ -z "$CHANGES" ]; then
             echo "::set-output name=updated::false"
