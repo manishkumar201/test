@@ -15,16 +15,12 @@ jobs:
       - name: Check if version file is updated
         id: check-updated
         run: |
-          VERSION_FILE=version.txt
+          VERSION_FILE=path/to/version/file.txt
           CHANGES=$(git ls-files --error-unmatch "$VERSION_FILE" || echo "not found")
-          if [ "$CHANGES" == "not found" ]; then
-            echo "::set-output name=updated::false"
-          else
-            echo "::set-output name=updated::true"
-          fi
+          echo "VERSION_FILE_CHANGED=${CHANGES}" >> $GITHUB_ENV
 
       - name: Close PR if version file not updated
-        if: steps.check-updated.outputs.updated == 'false'
+        if: env.VERSION_FILE_CHANGED == 'not found'
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER"
