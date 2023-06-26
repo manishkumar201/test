@@ -25,7 +25,13 @@ jobs:
 
       - name: Close PR if version file not updated
         if: steps.check-updated.outputs.updated == 'false'
-        uses: peter-evans/close-pull@v1
-        with:
-          comment: "The version file has not been updated. Closing the pull request."
-          delete_branch: false
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER"
+          API_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          
+          # Create a JSON payload for closing the PR
+          PAYLOAD=$(echo '{}' | jq --arg body "The version file has not been updated. Closing the pull request." '.body = $body')
+          
+          # Send a PATCH request to close the PR
+          curl -X PATCH -H "Authorization: Bearer $API_TOKEN" -H "Content-Type: application/json" -d "$PAYLOAD" "$API_URL"
