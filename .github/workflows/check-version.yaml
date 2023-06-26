@@ -25,7 +25,7 @@ jobs:
 
       - name: Close PR if version file not updated
         if: steps.check-updated.outputs.updated == 'false'
-        uses: peter-evans/close-pull-request@v1
+        uses: peter-evans/close-pull@v1
         with:
           comment: "The version file has not been updated. Closing the pull request."
           delete_branch: false
