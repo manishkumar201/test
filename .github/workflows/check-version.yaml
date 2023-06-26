@@ -14,23 +14,19 @@ jobs:
       - name: Get version file
         run: |
           echo "Getting version file..."
-          version_file=$(git rev-parse --show-toplevel)/version.txt
+          version_file=$(git rev-parse --show-toplevel)/VERSION
       - name: Check if version file is updated
         run: |
           echo "Checking if version file is updated..."
-          if [[ ! -f $version_file ]]; then
-            echo "Version file not found."
-            exit 1
-          fi
           current_version=$(cat $version_file)
           pr_version=$(jq -r '.head.ref' $GITHUB_EVENT_PATH)
           if [[ $current_version == $pr_version ]]; then
             echo "Version file not updated."
-            exit 1
+            fail()
           fi
 
   close_pr:
-    if: ${{ steps.check_version.outcome == 'failure' }}
+    if: ${{ steps.check_version.outcome == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v4
@@ -39,5 +35,5 @@ jobs:
             github.issues.update({
               issue_number: context.issue.number,
               state: 'closed',
-              body: 'This pull request was closed because the version file was not updated.'
+              body: 'This pull request was closed because the version file was updated.'
             });
