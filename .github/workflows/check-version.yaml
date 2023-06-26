@@ -15,7 +15,7 @@ jobs:
       - name: Check if version file is updated
         id: check-updated
         run: |
-          VERSION_FILE=path/to/version/file.txt
+          VERSION_FILE=version.txt
           CHANGES=$(git ls-files --error-unmatch "$VERSION_FILE" || echo "not found")
           if [ "$CHANGES" == "not found" ]; then
             echo "::set-output name=updated::false"
