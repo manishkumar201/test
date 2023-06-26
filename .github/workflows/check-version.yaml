@@ -1,27 +1,37 @@
-name: Check Updated File
+name: Close PR if Version Not Updated
 on:
   pull_request:
-    types: [opened, edited, reopened]
-
-permissions: write-all  
+    types:
+      - synchronize
 
 jobs:
-  check-updated-file:
+  close-pr:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check if file is updated
+      - name: Check if version file is updated
+        id: check-updated
         run: |
-          FILE_PATH=version.txt
-          LAST_COMMIT=$(git log -1 --format="%h" -- $FILE_PATH)
-          echo "Last commit: $LAST_COMMIT"
-          echo "Current commit: $GITHUB_SHA"
-          if [ "$LAST_COMMIT" != "$GITHUB_SHA" ]; then
-            echo "File $FILE_PATH has been updated!"
+          VERSION_FILE=version.txt
+          CHANGES=$(git ls-files --error-unmatch "$VERSION_FILE" || echo "not found")
+          if [ "$CHANGES" == "not found" ]; then
+            echo "::set-output name=updated::false"
           else
-            echo "File $FILE_PATH has not been updated."
-            exit 1
+            echo "::set-output name=updated::true"
           fi
+
+      - name: Close PR if version file not updated
+        if: steps.check-updated.outputs.updated == 'false'
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER"
+          API_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          
+          # Create a JSON payload for closing the PR
+          PAYLOAD=$(echo '{}' | jq --arg body "The version file has not been updated. Closing the pull request." '.body = $body')
+          
+          # Send a PATCH request to close the PR
+          curl -X PATCH -H "Authorization: Bearer $API_TOKEN" -H "Content-Type: application/json" -d "$PAYLOAD" "$API_URL"

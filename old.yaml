@@ -1,0 +1,27 @@
+name: Check Updated File
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+permissions: write-all  
+
+jobs:
+  check-updated-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check if file is updated
+        run: |
+          FILE_PATH=path/to/your/file.txt
+          LAST_COMMIT=$(git log -1 --format="%h" -- $FILE_PATH)
+          echo "Last commit: $LAST_COMMIT"
+          echo "Current commit: $GITHUB_SHA"
+          if [ "$LAST_COMMIT" != "$GITHUB_SHA" ]; then
+            echo "File $FILE_PATH has been updated!"
+          else
+            echo "File $FILE_PATH has not been updated."
+            exit 1
+          fi
