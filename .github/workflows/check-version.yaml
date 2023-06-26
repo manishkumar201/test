@@ -1,33 +1,43 @@
-name: Close PR if Version Not Updated
+name: Close PR if version file not updated
 on:
   pull_request:
-    types:
-      - synchronize
+    types: [opened, edited]
 
 jobs:
-  close-pr:
+  check_version:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: Get version file
+        run: |
+          echo "Getting version file..."
+          version_file=$(git rev-parse --show-toplevel)/version.txt
       - name: Check if version file is updated
-        id: check-updated
         run: |
-          VERSION_FILE=version.txt
-          CHANGES=$(git ls-files --error-unmatch "$VERSION_FILE" || echo "not found")
-          echo "VERSION_FILE_CHANGED=${CHANGES}" >> $GITHUB_ENV
+          echo "Checking if version file is updated..."
+          if [[ ! -f $version_file ]]; then
+            echo "Version file not found."
+            exit 1
+          fi
+          current_version=$(cat $version_file)
+          pr_version=$(jq -r '.head.ref' $GITHUB_EVENT_PATH)
+          if [[ $current_version == $pr_version ]]; then
+            echo "Version file not updated."
+            exit 1
+          fi
 
-      - name: Close PR if version file not updated
-        if: env.VERSION_FILE_CHANGED == 'not found'
-        run: |
-          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER"
-          API_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          
-          # Create a JSON payload for closing the PR
-          PAYLOAD=$(echo '{}' | jq --arg body "The version file has not been updated. Closing the pull request." '.body = $body')
-          
-          # Send a PATCH request to close the PR
-          curl -X PATCH -H "Authorization: Bearer $API_TOKEN" -H "Content-Type: application/json" -d "$PAYLOAD" "$API_URL"
+  close_pr:
+    if: ${{ steps.check_version.outcome == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.update({
+              issue_number: context.issue.number,
+              state: 'closed',
+              body: 'This pull request was closed because the version file was not updated.'
+            });
