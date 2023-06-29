@@ -1,4 +1,4 @@
-name: 'PR description checker'
+name: 'PR Description and Target Checker'
 on:
   pull_request:
     types: [opened, edited, reopened]
@@ -7,18 +7,13 @@ permissions: write-all
       
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.number }}
-  PR_DESCRIPTION : ${{ !github.event.pull_request.body }} 
-  REPO_OWNER: ${{ github.repository_owner }}
   REPO_NAME: ${{ github.repository }}
-      
+ 
 jobs:
-  check-pr-description:
-    name: check-pr-description
+  Check-PR:
     runs-on: ubuntu-latest
     steps:
-      - name: description on pr
-        uses: ./
-        with:
-          pr_number: ${{ github.event.number }}
-          pr_description: ${{ !github.event.pull_request.body }}
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check PR Description and Target
+        uses: imp-ress-ico/github-actions@1.5.1.0 
