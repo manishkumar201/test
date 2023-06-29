@@ -21,10 +21,6 @@ jobs:
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
-        run:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: superbrothers/close-pull-request@v3
-          with:
-            # Optional. Post a issue comment just before closing a pull request.
+        uses: superbrothers/close-pull-request@v3
+        with:
             comment: "file not found. Closing the PR"
