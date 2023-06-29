@@ -21,6 +21,11 @@ jobs:
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
-        uses: superbrothers/close-pull-request@v3
+        uses: crondaemon/close-pr@v1
         with:
+        # Optional. Post a issue comment just before closing a pull request.
             comment: "file not found. Closing the PR"
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            
