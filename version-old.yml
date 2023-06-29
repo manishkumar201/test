@@ -17,9 +17,9 @@ jobs:
       - name: Check Version File
         run: |
           if [ ! -f "version.txt" ]; then
-            echo "=missing=true" >>$GITHUB_OUTPUT
+            echo "::set-output name=missing::true"
           else
-          echo "=missing=false" >>$GITHUB_OUTPUT
+            echo "::set-output name=missing::false"
           fi
         id: check_version
         
