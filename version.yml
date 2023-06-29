@@ -1,0 +1,31 @@
+name: Version Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  version_check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Check Version File
+        run: |
+          if [ ! -f "version.txt" ]; then
+            echo "::set-output name=missing::true"
+          else
+            echo "::set-output name=missing::false"
+          fi
+        id: check_version
+        
+      - name: Close Pull Request
+        if: ${{ steps.check_version.outputs.missing == 'true' }}
+        uses: peter-evans/close-pull@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'The version file is missing. Closing the pull request.'
