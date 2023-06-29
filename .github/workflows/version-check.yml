@@ -1,6 +1,10 @@
 name: "File existence check"
 
-on: [push, pull_request]
+on:
+    pull_request:
+      types:
+        - opened
+        - synchronize
 
 jobs:
   file_existence:
