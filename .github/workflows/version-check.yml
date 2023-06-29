@@ -6,6 +6,12 @@ on:
         - opened
         - synchronize
 
+permissions: write-all    
+      
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    REPO_NAME: ${{ github.repository }}
+
 jobs:
   file_existence:
     runs-on: ubuntu-latest
@@ -21,11 +27,6 @@ jobs:
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
-        uses: crondaemon/close-pr@v1
-        with:
-        # Optional. Post a issue comment just before closing a pull request.
-            comment: "file not found. Closing the PR"
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ./  
 
             
