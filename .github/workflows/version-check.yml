@@ -21,9 +21,10 @@ jobs:
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
-        run: |
-          echo "The version file is missing. Closing the pull request."
-          github_token=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
-          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          api_url="https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$pr_number"
-          curl -X PATCH -H "Authorization: Bearer $github_token" -H "Content-Type: application/json" -d "{\"state\":\"closed\"}" "$api_url"
+        run:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: superbrothers/close-pull-request@v3
+          with:
+            # Optional. Post a issue comment just before closing a pull request.
+            comment: "file not found. Closing the PR"
