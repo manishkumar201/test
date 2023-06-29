@@ -8,6 +8,7 @@ repo = g.get_repo(os.environ['REPO_NAME'])
 pulls = repo.get_pulls(state='open')
 MERGE_PR = os.environ.get("MERGE_PR")
 CLOSE_PR = os.environ.get("CLOSE_PR")
+VERSION_EXIST = os.environ.get("VERSION_EXIST")
 
 print("repo:",repo)
 print("pulls:",pulls)
@@ -16,6 +17,17 @@ print("pulls:",pulls)
 if pulls.totalCount == 0:
     print('No open pull requests, exiting...')
     exit()
+    
+# 1. Checking if version file exists or not
+for pull in pulls:
+    if not VERSION_EXIST:
+        try:
+            pull.edit(state='closed')
+            pull.create_issue_comment('Version file not exists')
+            print("Pull request", pull.number, "Version file not exists")
+        except Exception as e:
+            print('Error occurred while processing pull request:', pull.number)
+            print('Error:', e)
 
 # 5.Check if the pull request has a description
 for pull in pulls:

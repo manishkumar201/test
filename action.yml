@@ -38,6 +38,10 @@ inputs:
   close_pr:
     description: PR number
     required: false  
+  version_exist:
+    description: version file existance
+    required: false  
+
     
 runs:
   using: 'docker'
@@ -52,3 +56,4 @@ runs:
     PR_NUMBER: ${{ inputs.pr_number }}
     MERGE_PR: ${{ inputs.merge_pr }}
     CLOSE_PR: ${{ inputs.close_pr }}
+    VERSION_EXIST: ${{ inputs.version_exist }}

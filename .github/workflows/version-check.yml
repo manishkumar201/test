@@ -9,8 +9,11 @@ on:
 permissions: write-all    
       
 env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    REPO_NAME: ${{ github.repository }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.number }}
+  PR_DESCRIPTION : ${{ !github.event.pull_request.body }} 
+  REPO_OWNER: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.repository }}
 
 jobs:
   file_existence:
@@ -28,5 +31,9 @@ jobs:
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         uses: ./  
+        with:
+          pr_number: ${{ github.event.number }}
+          pr_description: ${{ !github.event.pull_request.body }}
+          version_exist: ${{ steps.check_files.outputs.files_exists }}
 
             
