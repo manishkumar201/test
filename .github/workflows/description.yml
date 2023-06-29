@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: description on pr
-        uses: imp-ress-ico/github-actions@1.1.0.0
+        uses: ./
         with:
           pr_number: ${{ github.event.number }}
           pr_description: ${{ !github.event.pull_request.body }}
