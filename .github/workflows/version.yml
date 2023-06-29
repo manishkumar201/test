@@ -27,5 +27,5 @@ jobs:
         if: ${{ steps.check_version.outputs.missing == 'true' }}
         uses: peter-evans/close-pull@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'The version file is missing. Closing the pull request.'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment: 'The version file is missing. Closing the pull request.'
