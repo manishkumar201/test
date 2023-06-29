@@ -23,7 +23,7 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         run: |
           echo "The version file is missing. Closing the pull request."
-          github_token=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
+          github_token=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
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           api_url="https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$pr_number"
           curl -X PATCH -H "Authorization: Bearer $github_token" -H "Content-Type: application/json" -d "{\"state\":\"closed\"}" "$api_url"
