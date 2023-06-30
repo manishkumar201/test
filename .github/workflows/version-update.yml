@@ -27,7 +27,7 @@ jobs:
 
       - name: Change file in directory
         run: |
-          echo "Changed" > test_directory/new.txt
+          echo "Changed"
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v16
