@@ -35,7 +35,7 @@ jobs:
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         uses: ./  
-        with:
-          version_exist: ${{ steps.check_files.outputs.files_exists }}
+        #with:
+        #  version_exist: ${{ steps.check_files.outputs.files_exists }}
 
             
