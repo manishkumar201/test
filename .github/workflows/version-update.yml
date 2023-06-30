@@ -23,10 +23,10 @@ jobs:
 
       - name: Verify if file is changed
         id: file-checker
+        run: 
         uses: tj-actions/changed-files@v3
         with:
-          files: 
-            - version.txt
+          files: VERSION
       
       - name: Notify if file is changed
         run: echo version file is changed -> ${{ steps.file-checker.outputs.changed == 'true' }}
