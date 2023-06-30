@@ -22,4 +22,4 @@ jobs:
           echo $latest_tag 
 
       - name: using variables from previous step
-        run: echo ${{ steps.latest-tag.output.latest_tag }}
+        run: echo $latest_tag 
