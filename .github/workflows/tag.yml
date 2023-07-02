@@ -45,8 +45,11 @@ jobs:
             echo "tag are different"
           fi
 
+      - name: closing the pr if tag already exist
+        if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
+        run: echo "tags are same" 
 
-      - name: closing the pr is tag already exist
+      - name: closing the pr if tag already exist
         if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
         uses: ./ 
 
