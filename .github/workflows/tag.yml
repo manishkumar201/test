@@ -16,7 +16,7 @@ env:
   REPO_NAME: ${{ github.repository }}
 
 jobs:
-  create-tag:
+  tag-matcher:
     runs-on: ubuntu-latest    
     steps: 
       - name: Checkout repository
@@ -33,8 +33,8 @@ jobs:
 
       - name: using set ouput
         run: |
-          echo latest tag: ${steps.latestTag.outputs.tag} 
-          echo VERSION file: ${steps.latestTag.outputs.new_tag}
+          echo "latest tag: ${{ steps.latestTag.outputs.tag }}"
+          echo "VERSION file: ${{ steps.latestTag.outputs.new_tag }}"
           if [[ "${{ steps.latestTag.outputs.new_tag }}" == "${{ steps.latestTag.outputs.tag }}" ]]; then
             echo "tag are same"
           else
