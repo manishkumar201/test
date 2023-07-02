@@ -14,16 +14,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Get latest tag
-        id: latestTag
-        run: |
-          git fetch --tags --depth=1
-          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-          echo $latest_tag > msg.txt
-          echo "{tag}={$latest_tag}" >> $GITHUB_OUTPUT
-
-      - name: using set ouput
-        run: |
-          echo "got the variable"
-          echo "tag: ${{ steps.latestTag.outputs.tag }}"
+      - id: step1
+        run: echo "test=Hello world" >> $GITHUB_OUTPUT
+    
+      - run: echo "${{ steps.step1.outputs.test }}"
 
