@@ -26,13 +26,13 @@ jobs:
           echo "new_tag=$version_file" >> $GITHUB_OUTPUT
 
       - name: tags are same
-        if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
+        if: ${{ steps.latestTag.outputs.new_tag == steps.latestTag.outputs.tag }}
         run: |
           echo "tags are same" 
           echo "${{ steps.latestTag.outputs.new_tag }}"
 
       - name: tags are different
-        if: ${{ steps.latestTag.outputs.new_tag }} != ${{ steps.latestTag.outputs.tag }}
+        if: ${{ steps.latestTag.outputs.new_tag != steps.latestTag.outputs.tag }}
         run: |
           echo "tags are different" 
           echo "${{ steps.latestTag.outputs.tag }}"
