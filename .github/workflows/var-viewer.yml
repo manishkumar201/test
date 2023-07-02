@@ -1,4 +1,4 @@
-name: view tag
+name: VERSION-viewer
 
 on:
   push:  
@@ -8,34 +8,13 @@ on:
 permissions: write-all
 
 jobs:
-  tag-viewer:
+  VERSION-viewer:
     runs-on: ubuntu-latest    
     steps: 
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Get latest tag
-        id: latestTag
         run: |
-          git fetch --tags --depth=1
-          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-          echo $latest_tag
-          echo "tag=$latest_tag" >> $GITHUB_OUTPUT
-          version_file=$(cat VERSION)
-          echo $version_file
-          echo "new_tag=$version_file" >> $GITHUB_OUTPUT
-
-      - name: tags are same
-        if: ${{ steps.latestTag.outputs.new_tag == steps.latestTag.outputs.tag }}
-        run: |
-          echo "tags are same" 
-          echo "${{ steps.latestTag.outputs.new_tag }}"
-
-      - name: tags are different
-        if: ${{ steps.latestTag.outputs.new_tag != steps.latestTag.outputs.tag }}
-        run: |
-          echo "tags are different" 
-          echo "${{ steps.latestTag.outputs.tag }}"
-
-      - name: final
-        run: echo "[[ ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }} ]]"
+          tag=$(cat VERSION)
+          echo $tag
