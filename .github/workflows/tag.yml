@@ -26,6 +26,8 @@ jobs:
           tag=$(cat msg.txt)
           if [[ "$tag" == "1.0" ]]; then
             echo "tag matched"
+            - name: calling another repo
+              run: echo its being done
           else
             echo "some error exists"
           fi
