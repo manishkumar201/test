@@ -33,23 +33,7 @@ jobs:
           echo $version_file
           echo "new_tag=$version_file" >> $GITHUB_OUTPUT
 
-      - name: using set ouput
-        run: |
-          tag=${{ steps.latestTag.outputs.tag }}
-          echo $tag
-          echo "latest tag: ${{ steps.latestTag.outputs.tag }}"
-          echo "VERSION file: ${{ steps.latestTag.outputs.new_tag }}"
-          if [[ "${{ steps.latestTag.outputs.new_tag }}" == "${{ steps.latestTag.outputs.tag }}" ]]; then
-            echo "tag are same"
-          else
-            echo "tag are different"
-          fi
-
       - name: closing the pr if tag already exist
-        if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
-        run: echo "tags are same" 
-
-      - name: closing the pr if tag already exist
-        if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
+        if: ${{ steps.latestTag.outputs.new_tag == steps.latestTag.outputs.tag }}
         uses: ./ 
 
