@@ -1,10 +1,10 @@
 name: "File existence check"
 
 on:
-    pull_request:
-      types:
-        - opened
-        - synchronize
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 permissions: write-all    
       
