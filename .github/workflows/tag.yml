@@ -1,4 +1,4 @@
-name: Create Tag on push to branch
+name: Tag Matcher
 
 on:
   pull_request:
@@ -33,11 +33,11 @@ jobs:
 
       - name: using set ouput
         run: |
-          echo latst tag: ${{ steps.latestTag.outputs.tag }}
-          echo VERSION file: ${{ steps.latestTag.outputs.new_tag }}
+          echo latest tag: $steps.latestTag.outputs.tag 
+          echo VERSION file: $steps.latestTag.outputs.new_tag
 
 
-      - name: closing the pr is tag already exiist
+      - name: closing the pr is tag already exist
         if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
         uses: ./ 
 
