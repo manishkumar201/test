@@ -22,4 +22,10 @@ jobs:
           echo $latest_tag > msg.txt
 
       - name: using variables from previous step
-        run: echo $(cat msg.txt) 
+        run: |
+          if [[ "${{steps.latest-tag.outputs.latest_tag}}" == "1.0" ]]; then
+            echo "tag matched"
+          else
+            echo "some error exists"
+          fi
+
