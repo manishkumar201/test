@@ -1,20 +1,12 @@
 name: Create Tag on push to branch
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
+  push:  
+    branches:
+      - test
 
 permissions: write-all
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.number }}
-  PR_DESCRIPTION : ${{ !github.event.pull_request.body }} 
-  REPO_OWNER: ${{ github.repository_owner }}
-  REPO_NAME: ${{ github.repository }}
-  
 jobs:
   create-tag:
     runs-on: ubuntu-latest    
@@ -38,8 +30,4 @@ jobs:
       - name: getting VERSION file content
         if: ${{ steps.latestTag.outputs.new_tag }} == "1.0"
         run: echo able to access version file
-
-      - name: closing the pr is tag already exiist
-        if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
-        uses: ./ 
 
