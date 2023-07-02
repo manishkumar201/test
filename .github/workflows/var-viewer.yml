@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Get latest tag
+        id: step3
         run: |
           tag=$(cat VERSION)
           echo $tag
