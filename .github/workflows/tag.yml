@@ -27,12 +27,16 @@ jobs:
         run: |
           git fetch --tags --depth=1
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo $latest_tag
           echo "{tag}={$latest_tag}" >> $GITHUB_OUTPUT
           version_file=$(cat VERSION)
+          echo $version_file
           echo "{new_tag}={$version_file}" >> $GITHUB_OUTPUT
 
       - name: using set ouput
         run: |
+          tag=${{ steps.latestTag.outputs.tag }}
+          echo $tag
           echo "latest tag: ${{ steps.latestTag.outputs.tag }}"
           echo "VERSION file: ${{ steps.latestTag.outputs.new_tag }}"
           if [[ "${{ steps.latestTag.outputs.new_tag }}" == "${{ steps.latestTag.outputs.tag }}" ]]; then
