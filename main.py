@@ -30,8 +30,6 @@ def close():
         except Exception as e:
             print(f"Failed to close PR: {str(e)}")
 
-if __name__ == '__main__':
-    print('start')  
-    if CLOSE_PR.__eq__('false'):
-        close()   
-    print('end')       
+print('start')  
+close()   
+print('end')       
