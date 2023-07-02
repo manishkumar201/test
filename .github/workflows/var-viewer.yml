@@ -36,3 +36,6 @@ jobs:
         run: |
           echo "tags are different" 
           echo "${{ steps.latestTag.outputs.tag }}"
+
+      - name: final
+        run: echo[[ ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }} ]]
