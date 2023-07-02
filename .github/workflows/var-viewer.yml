@@ -20,5 +20,5 @@ jobs:
           echo $tag
 
       - name: Handle Error
-        if: ${{ job.status == 'failure' }}
+        if: steps.step3.outcome == 'failure'
         run: echo "VERSION file not found"
