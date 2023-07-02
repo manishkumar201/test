@@ -19,11 +19,12 @@ jobs:
         run: |
           git fetch --tags --depth=1
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-          echo $latest_tag
+          echo $latest_tag > msg.txt
 
       - name: using variables from previous step
         run: |
-          if [[ "${{ steps.latestTag.outputs.latest_tag }}" == "1.0" ]]; then
+          tag=$(cat msg.txt)
+          if [[ "$tag" == "1.0" ]]; then
             echo "tag matched"
           else
             echo "some error exists"
