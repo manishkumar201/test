@@ -18,3 +18,7 @@ jobs:
         run: |
           tag=$(cat VERSION)
           echo $tag
+
+      - name: Handle Error
+        if: ${{ job.status == 'failure' }}
+        run: echo "VERSION file not found"
