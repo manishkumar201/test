@@ -14,7 +14,7 @@ env:
   PR_DESCRIPTION : ${{ !github.event.pull_request.body }} 
   REPO_OWNER: ${{ github.repository_owner }}
   REPO_NAME: ${{ github.repository }}
-  
+
 jobs:
   create-tag:
     runs-on: ubuntu-latest    
@@ -32,12 +32,10 @@ jobs:
           echo "{new_tag}={$version_file}" >> $GITHUB_OUTPUT
 
       - name: using set ouput
-        if:  ${{ steps.latestTag.outputs.tag }} == "1.0"
-        run: echo "got the variable"
+        run: |
+          echo latst tag: ${{ steps.latestTag.outputs.tag }}
+          echo VERSION file: ${{ steps.latestTag.outputs.new_tag }}
 
-      - name: getting VERSION file content
-        if: ${{ steps.latestTag.outputs.new_tag }} == "1.0"
-        run: echo able to access version file
 
       - name: closing the pr is tag already exiist
         if: ${{ steps.latestTag.outputs.new_tag }} == ${{ steps.latestTag.outputs.tag }}
