@@ -23,3 +23,11 @@ jobs:
       - name: Handle Error
         if: steps.step3.outcome == 'failure'
         run: echo "VERSION file not found"
+
+  Handle-error:
+    needs: VERSION-viewer
+    if: ${{ needs.VERSION-viewer.result != 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Handle Error
+        run: echo "VERSION file not found"
