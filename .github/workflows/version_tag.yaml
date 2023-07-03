@@ -31,5 +31,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.issue.number }} 
-          VERSION: ${{ ${{ steps.latestTag.outputs.version_file }}
+          VERSION_FILE: ${{ steps.latestTag.outputs.version_file }}
           
