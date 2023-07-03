@@ -43,6 +43,6 @@ for pull in pulls:
         pull.edit(state='closed')     
 
 for pull in pulls:
-    tags = pull.get_tags()
+    tags = repo.get_tags()
     for tag in tags:
         pull.create_issue_comment("tag -> ",tag)
