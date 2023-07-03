@@ -1,5 +1,4 @@
-name: Create Tag on Merge to master
-
+name: check if a version file exist or not
 on:
   pull_request:
     types:
@@ -14,7 +13,7 @@ on:
 permissions: write-all
 
 jobs:
-  create-tag:
+  file-checker:
     runs-on: ubuntu-latest
     
     steps: 
@@ -26,3 +25,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.issue.number }} 
+          
