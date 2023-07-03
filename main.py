@@ -7,6 +7,7 @@ g = Github(os.environ["GITHUB_TOKEN"])
 repo = g.get_repo(os.environ['REPO_NAME'])
 pulls = repo.get_pulls(state='open')
 CLOSE_PR = os.environ.get("CLOSE_PR")
+VERSION_FILE = os.environ.get("VERSION_FILE")
 
 print("repo:",repo)
 print("pulls:",pulls)
@@ -45,5 +46,14 @@ for pull in pulls:
 
 for pull in pulls:
     tags = repo.get_tags()
+    tag_exist = False
     for tag in tags:
-        print("tag ->" , tag.name)
+        if tag.name == VERSION_FILE:
+            print("tag -> " , tag.name)
+            tag_exist = True
+            break
+
+    if tag_exist:
+        pull.create_issue_comment('The tag from VERSION file already exists. Closing this pull request.')
+        pull.edit(state='closed') 
+        
