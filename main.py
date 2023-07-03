@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 g = Github(os.environ["GITHUB_TOKEN"])
 repo = g.get_repo(os.environ['REPO_NAME'])
 pulls = repo.get_pulls(state='open')
-CLOSE_PR = os.environ.get("VERSION_EXIST")
+CLOSE_PR = os.environ.get("CLOSE_PR")
 
 print("repo:",repo)
 print("pulls:",pulls)
@@ -16,20 +16,28 @@ if pulls.totalCount == 0:
     print('No open pull requests, exiting...')
     exit()
 
-
-def close():
-    if 'PR_NUMBER' in os.environ:
-        pr_number = int(os.environ['PR_NUMBER'])
-        pr = repo.get_pull(pr_number)
-        print("pr_number:", pr_number)
-        print("pr:", pr)
+# 2.Check if the pull request targets the master branch directly
+for pull in pulls:
+    if pull.base.ref == 'master' and not pull.head.ref.startswith('release/'):
         try:
-            pr.edit(state="closed")
-            pr.create_issue_comment('This pull request was closed because of a slash command.')
-            print("Pull request:", pr, "was closed because of a slash command.")
+            pull.edit(state='closed')
+            pull.create_issue_comment('Do not accept PR target from feature branch to master branch.')
+            print("Pull request", pull.number, "Do not accept PR target from feature branch to master branch.")
         except Exception as e:
-            print(f"Failed to close PR: {str(e)}")
+            print('Error occurred while processing pull request:', pull.number)
+            print('Error:', e)
 
-print('start')  
-close()   
-print('end')       
+# 3. Check each open pull request for tag
+for pull in pulls:
+    # Check if the pull request modifies the VERSION file
+    files = pull.get_files()
+    version_file_exist = False
+    for file in files:
+        if file.filename == 'VERSION':
+            version_file_exist = True
+            break
+    
+    # If the VERSION file is not modified, close the pull request
+    if not version_file_exist:
+        pull.create_issue_comment('The VERSION file does not exist. Closing this pull request.')
+        pull.edit(state='closed')     
