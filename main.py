@@ -27,9 +27,9 @@ for pull in pulls:
             print('Error occurred while processing pull request:', pull.number)
             print('Error:', e)
 
-# 3. Check each open pull request for tag
+# 3. Check All the files and see if there is a file named "VERSION"
 for pull in pulls:
-    # Check if the pull request modifies the VERSION file
+    # get_files() will fetch all the file names and store it in the files
     files = pull.get_files()
     version_file_exist = False
     for file in files:
@@ -41,3 +41,8 @@ for pull in pulls:
     if not version_file_exist:
         pull.create_issue_comment('The VERSION file does not exist. Closing this pull request.')
         pull.edit(state='closed')     
+
+for pull in pulls:
+    tags = pull.get_tags()
+    for tag in tags:
+        pull.create_issue_comment("tag -> ",tag)
