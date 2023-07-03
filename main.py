@@ -34,6 +34,7 @@ for pull in pulls:
     version_file_exist = False
     for file in files:
         if file.filename == 'VERSION':
+            print("file -> " , file)
             version_file_exist = True
             break
     
@@ -45,4 +46,4 @@ for pull in pulls:
 for pull in pulls:
     tags = repo.get_tags()
     for tag in tags:
-        print("tag ->" , tag)
+        print("tag ->" , tag.name)
