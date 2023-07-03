@@ -45,4 +45,4 @@ for pull in pulls:
 for pull in pulls:
     tags = repo.get_tags()
     for tag in tags:
-        pull.create_issue_comment("tag -> ",tag)
+        pull.create_issue_comment(tag)
