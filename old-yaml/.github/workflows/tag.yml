@@ -1,0 +1,39 @@
+name: Tag Matcher
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+permissions: write-all
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.number }}
+  PR_DESCRIPTION : ${{ !github.event.pull_request.body }} 
+  REPO_OWNER: ${{ github.repository_owner }}
+  REPO_NAME: ${{ github.repository }}
+
+jobs:
+  tag-matcher:
+    runs-on: ubuntu-latest    
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get latest tag
+        id: latestTag
+        run: |
+          git fetch --tags --depth=1
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo $latest_tag
+          echo "tag=$latest_tag" >> $GITHUB_OUTPUT
+          version_file=$(cat VERSION)
+          echo $version_file
+          echo "new_tag=$version_file" >> $GITHUB_OUTPUT
+
+      - name: closing the pr if tag already exist
+        if: ${{ steps.latestTag.outputs.new_tag == steps.latestTag.outputs.tag }}
+        uses: ./ 
+
