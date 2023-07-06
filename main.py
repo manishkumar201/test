@@ -30,14 +30,13 @@ for pull in pulls:
 
 # 3. Check All the files and see if there is a file named "VERSION"
 if 'PR_NUMBER' in os.environ:
-    print("------------->" , os.environ['PR_NUMBER'])
     try:
-        pr_string = os.environ['PR_NUMBER']
         pr_number = int(os.environ['PR_NUMBER'])
         pr = repo.get_pull(pr_number)
         print("pr_number:", pr_number)
         print("pr:", pr)
         files = pr.get_files()
+        print(files)
         version_file_exist = False
         for file in files:
             if file.filename == 'VERSION':
@@ -75,7 +74,7 @@ if 'PR_NUMBER' in os.environ:
             print('The tag from VERSION file already exists. Closing this pull request.')
             pr.edit(state='closed') 
         else:
-            print(print('The VERSION didnt matched with tag. All ohk'))
+            print('The VERSION didnt matched with tag. All ohk')
 
     except Exception as e:
         print('PR_NUMBER :' , os.environ['PR_NUMBER'])
