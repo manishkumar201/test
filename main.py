@@ -29,31 +29,55 @@ for pull in pulls:
             print('Error:', e)
 
 # 3. Check All the files and see if there is a file named "VERSION"
-for pull in pulls:
-    # get_files() will fetch all the file names and store it in the files
-    files = pull.get_files()
-    version_file_exist = False
-    for file in files:
-        if file.filename == 'VERSION':
-            print("file -> " , file)
-            version_file_exist = True
-            break
-    
-    # If the VERSION file is not modified, close the pull request
-    if not version_file_exist:
-        pull.create_issue_comment('The VERSION file does not exist. Closing this pull request.')
-        pull.edit(state='closed')     
-
-for pull in pulls:
-    tags = repo.get_tags()
-    tag_exist = False
-    for tag in tags:
-        if tag.name == VERSION_FILE:
-            print("tag -> " , tag.name)
-            tag_exist = True
-            break
-
-    if tag_exist:
-        pull.create_issue_comment('The tag from VERSION file already exists. Closing this pull request.')
-        pull.edit(state='closed') 
+if 'PR_NUMBER' in os.environ:
+    print("------------->" , os.environ['PR_NUMBER'])
+    try:
+        pr_string = os.environ['PR_NUMBER']
+        pr_number = int(os.environ['PR_NUMBER'])
+        pr = repo.get_pull(pr_number)
+        print("pr_number:", pr_number)
+        print("pr:", pr)
+        files = pr.get_files()
+        version_file_exist = False
+        for file in files:
+            if file.filename == 'VERSION':
+                print("file -> " , file)
+                version_file_exist = True
+                break
+        if not version_file_exist:
+            pr.create_issue_comment('The VERSION file does not exist. Closing this pull request.')
+            print('The VERSION file does not exist. Closing this pull request.')
+            pr.edit(state='closed')  
+        else:
+            print(print('The VERSION file exists. All ohk'))
         
+    except Exception as e:
+        print('PR_NUMBER :' , os.environ['PR_NUMBER'])
+        print(f"Failed to check VERSION file : {str(e)}")
+     
+# 8. Check if version name from "VERSION" already exists as tag   
+if 'PR_NUMBER' in os.environ:
+    print("------------->" , os.environ['PR_NUMBER'])
+    try:
+        pr_number = int(os.environ['PR_NUMBER'])
+        pr = repo.get_pull(pr_number)
+        print("pr_number:", pr_number)
+        print("pr:", pr)
+        tags = repo.get_tags()
+        tag_exist = False
+        for tag in tags:
+            if tag.name == VERSION_FILE:
+                print("tag -> " , tag.name)
+                tag_exist = True
+                break
+        if tag_exist:
+            pr.create_issue_comment('The tag from VERSION file already exists. Closing this pull request.')
+            print('The tag from VERSION file already exists. Closing this pull request.')
+            pr.edit(state='closed') 
+        else:
+            print(print('The VERSION didnt matched with tag. All ohk'))
+
+    except Exception as e:
+        print('PR_NUMBER :' , os.environ['PR_NUMBER'])
+        print(f"Failed to compare version from VERSION  with tag: {str(e)}")
+    

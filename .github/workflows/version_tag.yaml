@@ -1,16 +1,15 @@
 name: check if version from version file already exist as tag
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened , synchronize]
     branches:
       - master
-      - main
-      - release/4.3.0.0
 
 permissions: write-all
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPO_NAME: ${{ github.repository }}
   PR_NUMBER: ${{ github.event.issue.number }} 
 
 jobs:
