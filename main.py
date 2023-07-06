@@ -49,7 +49,7 @@ if 'PR_NUMBER' in os.environ:
             print('The VERSION file does not exist. Closing this pull request.')
             pr.edit(state='closed')  
         else:
-            print(print('The VERSION file exists. All ohk'))
+            print('The VERSION file exists. All ohk')
         
     except Exception as e:
         print('PR_NUMBER :' , os.environ['PR_NUMBER'])
