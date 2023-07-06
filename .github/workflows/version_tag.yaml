@@ -11,7 +11,7 @@ permissions: write-all
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REPO_NAME: ${{ github.repository }}
-  PR_NUMBER: ${{ github.event.issue.number }} 
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   file-checker:
