@@ -36,7 +36,6 @@ if 'PR_NUMBER' in os.environ:
         print("pr_number:", pr_number)
         print("pr:", pr)
         files = pr.get_files()
-        print("--------------------------------------------" , files)
         version_file_exist = False
         for file in files:
             if file.filename == 'VERSION':
@@ -78,4 +77,17 @@ if 'PR_NUMBER' in os.environ:
     except Exception as e:
         print('PR_NUMBER :' , os.environ['PR_NUMBER'])
         print(f"Failed to compare version from VERSION  with tag: {str(e)}")
+
+# Testing
+if 'PR_NUMBER' in os.environ:
+    try:
+        pr_number = int(os.environ['PR_NUMBER'])
+        pr = repo.get_pull(pr_number)
+        
+        contents = repo.get_contents('VERSION')
+        raw_url = contents.download_url
+        response = requests.get(raw_url)
+        content = response.text
+        print('-------------content-------------')
+        print(content)
     
