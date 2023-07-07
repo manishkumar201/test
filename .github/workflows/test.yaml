@@ -1,0 +1,20 @@
+name: 'Just for testing'
+
+on:
+  push:  
+    - test
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPO_NAME: ${{ github.repository }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  JOB: "check-pr"
+
+jobs:
+  file-checker:
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Checking file existance
+        uses: ./
