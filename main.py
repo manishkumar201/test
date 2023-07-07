@@ -1,6 +1,7 @@
 import os
 from github import Github
 from datetime import datetime, timedelta
+import requests
 
 # env values
 g = Github(os.environ["GITHUB_TOKEN"])
