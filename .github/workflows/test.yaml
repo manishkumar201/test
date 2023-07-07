@@ -11,7 +11,7 @@ env:
   JOB: "check-pr"
 
 jobs:
-  file-checker:
+  tester:
     runs-on: ubuntu-latest
     
     steps: 
