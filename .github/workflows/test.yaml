@@ -2,7 +2,8 @@ name: 'Just for testing'
 
 on:
   push:  
-    - test
+    branches:
+      - test
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REPO_NAME: ${{ github.repository }}
