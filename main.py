@@ -8,7 +8,7 @@ g = Github(os.environ["GITHUB_TOKEN"])
 repo = g.get_repo(os.environ['REPO_NAME'])
 pulls = repo.get_pulls(state='open')
 CLOSE_PR = os.environ.get("CLOSE_PR")
-VERSION_FILE = os.environ.get("VERSION_FILE")
+#VERSION_FILE = os.environ.get("VERSION_FILE")
 
 print("repo:",repo)
 print("pulls:",pulls)
@@ -61,6 +61,11 @@ if 'PR_NUMBER' in os.environ:
         pr = repo.get_pull(pr_number)
         print("pr_number:", pr_number)
         print("pr:", pr)
+        contents = repo.get_contents('VERSION')
+        raw_url = contents.download_url
+        response = requests.get(raw_url)
+        VERSION_FILE = response.text
+        print("VERSION_FILE :- " , VERSION_FILE)
         tags = repo.get_tags()
         tag_exist = False
         for tag in tags:
