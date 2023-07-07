@@ -90,4 +90,5 @@ if 'PR_NUMBER' in os.environ:
         content = response.text
         print('-------------content-------------')
         print(content)
-    
+    except Exception as e:
+        print(f"Error : {str(e)}")
