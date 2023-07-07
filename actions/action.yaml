@@ -1,0 +1,10 @@
+name: "Main action file to create tag"
+description: "composite actions"
+
+runs:
+  using: "composite"
+  steps:
+    - run: git tag $(cat VERSION)
+      shell: bash
+    - run: git push origin $(cat VERSION)
+      shell: bash

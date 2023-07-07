@@ -1,0 +1,19 @@
+name: Stale Pull Requests
+on:
+  schedule:
+    - cron: '0 09 * * *' # scheduler runs every day at 9:00am UTC
+
+permissions: write-all
+
+env:
+  GITHUB_TOKEN: ${{ secrets.CHATOPS_ACCESS}} 
+  REPO_NAME: ${{ github.repository }}
+
+jobs:
+  Stale-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Stale PR
+        uses: imp-ress-ico/github-actions@1.5.1.0 

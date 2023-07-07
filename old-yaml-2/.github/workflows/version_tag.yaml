@@ -1,10 +1,10 @@
 name: check if version from version file already exist as tag
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened , synchronize]
     branches:
+      - main
       - master
-      - release/5.0.0.0
 
 permissions: write-all
 
@@ -33,7 +33,6 @@ jobs:
         id: latestTag
         run: |
           version_file=$(cat VERSION)
-          echo "version_file"
           echo "version_file=$version_file" >> $GITHUB_OUTPUT
       - name: Match tag with version-file
         uses: ./
