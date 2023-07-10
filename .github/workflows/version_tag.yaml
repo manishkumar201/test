@@ -1,7 +1,7 @@
 name: check if version from version file already exist as tag
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened , synchronize]
     branches:
       - master
       - main
