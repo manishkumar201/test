@@ -8,6 +8,7 @@ permissions: write-all
 env:
   GITHUB_TOKEN: ${{ secrets.CHATOPS_ACCESS}} 
   REPO_NAME: ${{ github.repository }}
+  JOB: "stale"
 
 jobs:
   Stale-PR:
@@ -16,4 +17,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Stale PR
-        uses: imp-ress-ico/github-actions@1.5.1.0 
+        uses: ./

@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  JOB: "tag"
+  
 permissions: write-all
 
 jobs:

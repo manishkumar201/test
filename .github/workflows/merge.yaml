@@ -10,6 +10,7 @@ env:
   REPO_NAME: ${{ github.repository }}
   MERGE_PR: ${{ github.event.comment.body == '/Approved' }}
   CLOSE_PR: ${{ github.event.comment.body == '/Close' }}
+  JOB: "merge"
   
 jobs:
   Merge_and_Close-PR:  
