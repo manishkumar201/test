@@ -4,6 +4,7 @@ on:
     types: [opened, edited, reopened]
     branches:
       - master
+      - main
       - release/5.0.0.0
 
 permissions: write-all
