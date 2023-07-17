@@ -1,11 +1,10 @@
 name: check if version from version file already exist as tag
 on:
   pull_request:
-    types: [opened, edited, reopened , synchronize]
-    branches:
-      - master
-      - main
-      - release/5.0.0.0
+    types: [opened, edited, reopened]
+#    branches:
+#      - master
+#      - release/*
 
 permissions: write-all
 
@@ -13,7 +12,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REPO_NAME: ${{ github.repository }}
   PR_NUMBER: ${{ github.event.pull_request.number }}
-  JOB: "version_tag"
 
 jobs:
   file-checker:
@@ -38,6 +36,6 @@ jobs:
           echo "version_file"
           echo "version_file=$version_file" >> $GITHUB_OUTPUT
       - name: Match tag with version-file
-        uses: ./
+        uses: imp-ress-ico/github-actions@release/2.0.0.0
         env:
           VERSION_FILE: ${{ steps.latestTag.outputs.version_file }}
