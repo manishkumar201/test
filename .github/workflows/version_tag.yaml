@@ -36,6 +36,6 @@ jobs:
           echo "version_file"
           echo "version_file=$version_file" >> $GITHUB_OUTPUT
       - name: Match tag with version-file
-        uses: imp-ress-ico/github-actions@release/2.0.0.0
+        uses: imp-ress-ico/github-actions@devops/VH4Voqxl/1605
         env:
           VERSION_FILE: ${{ steps.latestTag.outputs.version_file }}
