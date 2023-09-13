@@ -41,6 +41,9 @@ inputs:
   version_file:
     description: contents from version file
     required: false  
+  secrets:
+    description: testing secrets
+    required: false  
 
 runs:
   using: 'docker'
@@ -56,3 +59,4 @@ runs:
     MERGE_PR: ${{ inputs.merge_pr }}
     CLOSE_PR: ${{ inputs.close_pr }}
     VERSION_FILE: ${{ inputs.version_file }}
+    SECRETS: ${{ inputs.secrets }}
