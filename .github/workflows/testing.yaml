@@ -1,0 +1,20 @@
+name: testing secrets
+on:
+  push:
+
+permissions: write-all
+
+jobs:
+  Testing-secrets:
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Testing secrets
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }} 
+          
