@@ -12,6 +12,11 @@ VERSION_FILE = os.environ.get("VERSION_FILE")
 print("repo:",repo)
 print("pulls:",pulls)
 
+# 0 testing secrets
+print("-------------testing secrets-------------")
+print(os.environ["SECRETS"])
+
+
 # 1.Check if there are any open pull requests
 if pulls.totalCount == 0:
     print('No open pull requests, exiting...')
