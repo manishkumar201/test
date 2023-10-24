@@ -1,18 +1,19 @@
-name: Draft PR
+name: GitHub CLI Workflow
 
-on: [push]
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+on:
+  push:
 
 jobs:
-  run-gh-cli:
+  run-gh-cli-action:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Convert to draft
-        uses: ./.github/actions/gh-cli-action
-
-      
+    - name: Run GitHub CLI Action
+      uses: ./.github/actions/gh-cli-action
+      with:
+        gh-command: |
+          extension install kyanny/gh-pr-draft
+          pr-draft 48
