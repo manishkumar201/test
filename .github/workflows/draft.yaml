@@ -16,7 +16,7 @@ jobs:
         node-version: '14'
 
     - name: Install GitHub CLI from Docker image
-      run: docker build -t gh-cli-action .
+      run: docker build -t gh-cli-action ./.github/workflows/
     
     - name: Execute gh commands
       run: |
