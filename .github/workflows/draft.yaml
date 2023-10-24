@@ -2,20 +2,20 @@ name: Close PR
 
 on:
   push:
+    permissions:
+      - write
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  close-pr:
+  draft-pr:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Close PR
+      - name: Draft PR
         run: |
-        gh extension install kyanny/gh-pr-draft
-        gh pr-draft 48
-        
+          gh extension install kyanny/gh-pr-draft
+          gh pr-draft 48
