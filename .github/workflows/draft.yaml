@@ -1,0 +1,21 @@
+name: Close PR
+
+on:
+  push:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  close-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Close PR
+        run: |
+        gh extension install kyanny/gh-pr-draft
+        gh pr-draft 48
+        
