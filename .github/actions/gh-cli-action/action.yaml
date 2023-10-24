@@ -1,0 +1,24 @@
+name: GitHub CLI Action
+
+jobs:
+  run-gh-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up GitHub CLI
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install GitHub CLI from Docker image
+      run: docker build -t gh-cli-action .
+    
+    - name: Execute gh commands
+      run: |
+        docker run --rm gh-cli-action extension install kyanny/gh-pr-draft
+        docker run --rm gh-cli-action pr-draft 48
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
