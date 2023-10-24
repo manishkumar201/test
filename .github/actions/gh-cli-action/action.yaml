@@ -22,5 +22,3 @@ jobs:
       run: |
         docker run --rm gh-cli-action extension install kyanny/gh-pr-draft
         docker run --rm gh-cli-action pr-draft 48
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
