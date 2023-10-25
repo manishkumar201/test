@@ -2,6 +2,11 @@ name: GitHub CLI Action
 
 on: [push]
 
+permissions: write-all
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   run-gh-cli:
     runs-on: ubuntu-latest
