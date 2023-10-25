@@ -10,15 +10,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up GitHub CLI
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install GitHub CLI from Docker image
-      run: docker build -t gh-cli-action .
-    
-    - name: Execute gh commands
+    - name: GitHub CLI version check
       run: |
-        docker run --rm gh-cli-action extension install kyanny/gh-pr-draft
-        docker run --rm gh-cli-action pr-draft 48
+        gh --version
