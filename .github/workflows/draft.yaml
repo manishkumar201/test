@@ -1,19 +1,15 @@
-name: GitHub CLI Workflow
+name: GitHub CLI Action
 
-on:
-  push:
+on: [push]
 
 jobs:
-  run-gh-cli-action:
+  run-gh-cli:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Run GitHub CLI Action
-      uses: ./.github/actions/gh-cli-action
-      with:
-        gh-command: |
-          extension install kyanny/gh-pr-draft
-          pr-draft 48
+    - name: GitHub CLI version check
+      run: |
+        gh --version
