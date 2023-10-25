@@ -13,3 +13,4 @@ jobs:
     - name: GitHub CLI version check
       run: |
         gh --version
+        ls ./
