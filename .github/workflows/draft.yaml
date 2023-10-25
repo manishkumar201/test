@@ -18,9 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: GitHub CLI version check
+    - name: make PR draft
       run: |
         gh --version
         ls ./
+        echo doing the job
         echo $PR_NUMBER
         sh ./makeDraft.sh ${PR_NUMBER}
