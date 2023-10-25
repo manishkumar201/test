@@ -22,4 +22,5 @@ jobs:
       run: |
         gh --version
         ls ./
+        echo $PR_NUMBER
         sh ./makeDraft.sh ${PR_NUMBER}
