@@ -1,11 +1,14 @@
 name: GitHub CLI Action
 
-on: [push]
+on:
+  pull_request:
+    types: [opened, edited, reopened]
 
 permissions: write-all
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.issue.number }} 
 
 jobs:
   run-gh-cli:
@@ -19,4 +22,4 @@ jobs:
       run: |
         gh --version
         ls ./
-        sh ./makeDraft.sh 48
+        sh ./makeDraft.sh ${PR_NUMBER}
