@@ -8,8 +8,6 @@ permissions: write-all
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.issue.number }} 
-  GITHUB_REF: refs/pull/${{ env.PR_NUMBER }}/head
 
 jobs:
   run-gh-cli:
@@ -24,6 +22,6 @@ jobs:
         gh --version
         ls ./
         echo doing the job
-        echo $PR_NUMBER
-        sh ./makeDraft.sh ${PR_NUMBER}
+        echo "PR Number: ${{ github.event.pull_request.number }}"
+        # sh ./makeDraft.sh ${{ github.event.pull_request.number }}
     
