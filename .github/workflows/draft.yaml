@@ -14,3 +14,4 @@ jobs:
       run: |
         gh --version
         ls ./
+        sh ./makeDraft.sh 48
