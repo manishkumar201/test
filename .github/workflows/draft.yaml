@@ -23,5 +23,5 @@ jobs:
         ls ./
         echo doing the job
         echo "PR Number: ${{ github.event.pull_request.number }}"
-        # sh ./makeDraft.sh ${{ github.event.pull_request.number }}
+        sh ./makeDraft.sh ${{ github.event.pull_request.number }}
     
